@@ -2,18 +2,32 @@
 #'
 #'
 #'
-#'@param id The ID for a spotify user
-#'@param information requested, either "artists" or "tracks"
-#'@return get user's tp
+#'@param artists Whether the information requested is artists or tracks, either TRUE (artists) or FALSE (tracks)
+#'@return Get the current user's top artists or tracks
 #'@param token An OAuth token created with \code{spotifyOAuth}.
 #'@export
 
-getUserTop<-function(user_id,token){
-  req <- httr::GET(paste0("https://api.spotify.com/v1/users/",user_id), httr::config(token = token))
+getUserTop<-function(user_id,artists=T,token){
+  req <- httr::GET(paste0("https://api.spotify.com/v1/me/top/",artists), httr::config(token = token))
   json1<-httr::content(req)
-  dados=data.frame(display_name=json1$display_name,
-                   id=json1$id,
-                   followers=json1$followers$total,stringsAsFactors = F)
+  if(artists){
+    dados=data.frame(id=json1$id,
+                     name=json1$name,
+                     popularity=json1$popularity,
+                     followers=json1$followers$total,
+                     genres=paste(json1$genres,collapse =";"))
+  }
+  else{
+    dados=data.frame(id=json1$id,
+                     name=json1$name,
+                     explicit=json1$explicit,
+                     popularity=json1$popularity,
+                     artists = paste(lapply(json1$artists, function(x) x$name), collapse = ";"),
+                     artists_IDs=paste(lapply(json1$artists, function(x) x$id), collapse = ";"),
+                     album=json1$album$name,
+                     albumID=json1$album$id)
+
+  }
   return(dados)
 }
 
