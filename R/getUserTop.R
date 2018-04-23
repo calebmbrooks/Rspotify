@@ -10,6 +10,7 @@
 getUserTop<-function(artists=T,token){
   req <- httr::GET(paste0("https://api.spotify.com/v1/me/top/",artists), httr::config(token = token))
   json1<-httr::content(req)
+  json1 <- fromJSON(json1)
   if(artists){
     dados=data.frame(id=json1$id,
                      name=json1$name,
