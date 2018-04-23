@@ -1,4 +1,4 @@
-#'Get a user's recently played tracks
+#'Get a user's top artists or tracks
 #'
 #'
 #'
@@ -7,7 +7,7 @@
 #'@param token An OAuth token created with \code{spotifyOAuth}.
 #'@export
 
-getUserTop<-function(user_id,artists=T,token){
+getUserTop<-function(artists=T,token){
   req <- httr::GET(paste0("https://api.spotify.com/v1/me/top/",artists), httr::config(token = token))
   json1<-httr::content(req)
   if(artists){

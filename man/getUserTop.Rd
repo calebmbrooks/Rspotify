@@ -2,9 +2,9 @@
 % Please edit documentation in R/getUserTop.R
 \name{getUserTop}
 \alias{getUserTop}
-\title{Get a user's recently played tracks}
+\title{Get a user's top artists or tracks}
 \usage{
-getUserTop(user_id, artists = T, token)
+getUserTop(artists = T, token)
 }
 \arguments{
 \item{artists}{Whether the information requested is artists or tracks, either TRUE (artists) or FALSE (tracks)}
@@ -15,5 +15,5 @@ getUserTop(user_id, artists = T, token)
 Get the current user's top artists or tracks
 }
 \description{
-Get a user's recently played tracks
+Get a user's top artists or tracks
 }
