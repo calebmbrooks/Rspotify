@@ -10,23 +10,23 @@
 getUserTop<-function(artists=T,token){
   req <- httr::GET(paste0("https://api.spotify.com/v1/me/top/",artists), httr::config(token = token))
   json1<-httr::content(req)
-  json1 <- jsonlite::fromJSON(json1)
+  json2<-jsonlite::fromJSON(jsonlite::toJSON(json1))$items
   if(artists){
-    dados=data.frame(id=json1$id,
-                     name=json1$name,
-                     popularity=json1$popularity,
-                     followers=json1$followers$total,
-                     genres=paste(json1$genres,collapse =";"))
+    dados=data.frame(id=json2$id,
+                     name=json2$name,
+                     popularity=json2$popularity,
+                     followers=json2$followers$total,
+                     genres=paste(json2$genres,collapse =";"))
   }
   else{
-    dados=data.frame(id=json1$id,
-                     name=json1$name,
-                     explicit=json1$explicit,
-                     popularity=json1$popularity,
-                     artists = paste(lapply(json1$artists, function(x) x$name), collapse = ";"),
-                     artists_IDs=paste(lapply(json1$artists, function(x) x$id), collapse = ";"),
-                     album=json1$album$name,
-                     albumID=json1$album$id)
+    dados=data.frame(id=json2$id,
+                     name=json2$name,
+                     explicit=json2$explicit,
+                     popularity=json2$popularity,
+                     artists = paste(lapply(json2$artists, function(x) x$name), collapse = ";"),
+                     artists_IDs=paste(lapply(json2$artists, function(x) x$id), collapse = ";"),
+                     album=json2$album$name,
+                     albumID=json2$album$id)
 
   }
   return(dados)
