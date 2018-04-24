@@ -14,7 +14,8 @@ getUserTop<-function(artists=T,token){
     type <- "tracks"
   req <- httr::GET(paste0("https://api.spotify.com/v1/me/top/", type), httr::config(token = token))
   json1<-httr::content(req)
-  json2<-jsonlite::fromJSON(jsonlite::toJSON(json1))$items
+  #json2<-jsonlite::fromJSON(jsonlite::toJSON(json1))$items
+  json2 <- json1
   if(artists){
     dados=data.frame(id=json2$id,
                      name=json2$name,
