@@ -28,14 +28,8 @@ getUserTop<-function(artists=T,token){
                      name=unlist(json2$name),
                      explicit=unlist(json2$explicit),
                      popularity=unlist(json2$popularity),
-                     artists=artist_dfs %>%
-                       lapply(function(x) x$name) %>%
-                       lapply(paste, collapse = ';') %>%
-                       unlist(),
-                     artists_IDs=artist_dfs %>%
-                       lapply(function(x) x$id) %>%
-                       lapply(paste, collapse = ';') %>%
-                       unlist(),
+                     artists=unlist(lapply(lapply(artist_dfs, function(x) x$name), collapse = ";", paste)),
+                     artists_IDs=unlist(lapply(lapply(artist_dfs, function(x) x$id), collapse = ";", paste)),
                      album=unlist(json2$album$name),
                      albumID=unlist(json2$album$id))
 
