@@ -27,5 +27,5 @@ spotifyR <- httr::oauth_endpoint(
   access = "https://accounts.spotify.com/api/token")
 #if (packageVersion('httr') > "0.6.1"){Sys.setenv("HTTR_SERVER_PORT" = "1410/")}
 myapp <- httr::oauth_app(app_id, client_id, client_secret)
-return(httr::oauth2.0_token(spotifyR, myapp,scope = "playlist-read-private"))}
+return(httr::oauth2.0_token(spotifyR, myapp,scope = "user-top-read"))}
 

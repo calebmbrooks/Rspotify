@@ -8,7 +8,11 @@
 #'@export
 
 getUserTop<-function(artists=T,token){
-  req <- httr::GET(paste0("https://api.spotify.com/v1/me/top/",artists), httr::config(token = token))
+  if(artists)
+    type <- "artists"
+  else
+    type <- "tracks"
+  req <- httr::GET(paste0("https://api.spotify.com/v1/me/top/", type), httr::config(token = token))
   json1<-httr::content(req)
   json2<-jsonlite::fromJSON(jsonlite::toJSON(json1))$items
   if(artists){
