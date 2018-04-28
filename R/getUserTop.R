@@ -7,31 +7,31 @@
 #'@param token An OAuth token created with \code{spotifyOAuth}.
 #'@export
 
-getUserTop<-function(artists=T,token){
+getUserTop<-function(artists=T,limit = 20,token){
   if(artists)
     type <- "artists"
   else
     type <- "tracks"
-  req <- httr::GET(paste0("https://api.spotify.com/v1/me/top/", type), httr::config(token = token))
+  req <- httr::GET(paste0("https://api.spotify.com/v1/me/top/", type, "?limit=", limit), httr::config(token = token))
   json1<-httr::content(req)
-  json2<-jsonlite::fromJSON(jsonlite::toJSON(json1))$items
+  #json2<-jsonlite::fromJSON(jsonlite::toJSON(json1))$items
+  json2 <- json1
   if(artists){
-    dados=data.frame(id=unlist(json2$id),
-                     name=unlist(json2$name),
-                     popularity=unlist(json2$popularity),
-                     followers=unlist(json2$followers),
-                     genres=unlist(lapply(json2$genres, paste, collapse = "")))
+    dados=data.frame(id=json2$id,
+                     name=json2$name,
+                     popularity=json2$popularity,
+                     followers=json2$followers$total,
+                     genres=paste(json2$genres,collapse =";"))
   }
   else{
-    artist_dfs <- lapply(json2$artists, data.frame)
-    dados=data.frame(id=unlist(json2$id),
-                     name=unlist(json2$name),
-                     explicit=unlist(json2$explicit),
-                     popularity=unlist(json2$popularity),
-                     artists=unlist(lapply(lapply(artist_dfs, function(x) x$name), collapse = ";", paste)),
-                     artists_IDs=unlist(lapply(lapply(artist_dfs, function(x) x$id), collapse = ";", paste)),
-                     album=unlist(json2$album$name),
-                     albumID=unlist(json2$album$id))
+    dados=data.frame(id=json2$id,
+                     name=json2$name,
+                     explicit=json2$explicit,
+                     popularity=json2$popularity,
+                     artists = paste(lapply(json2$artists, function(x) x$name), collapse = ";"),
+                     artists_IDs=paste(lapply(json2$artists, function(x) x$id), collapse = ";"),
+                     album=json2$album$name,
+                     albumID=json2$album$id)
 
   }
   return(dados)

@@ -4,7 +4,7 @@
 \alias{getUserTop}
 \title{Get a user's top artists or tracks}
 \usage{
-getUserTop(artists = T, token)
+getUserTop(artists = T, limit = 20, token)
 }
 \arguments{
 \item{artists}{Whether the information requested is artists or tracks, either TRUE (artists) or FALSE (tracks)}
