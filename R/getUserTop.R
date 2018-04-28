@@ -12,7 +12,7 @@ getUserTop<-function(artists=T,limit = 20,token){
     type <- "artists"
   else
     type <- "tracks"
-  req <- httr::GET(paste0("https://api.spotify.com/v1/me/top/", type, "?limit=", limit), httr::config(token = token))
+  req <- httr::GET(paste0("https://api.spotify.com/v1/me/top/", type, "/?limit=", limit), httr::config(token = token))
   json1<-httr::content(req)
   #json2<-jsonlite::fromJSON(jsonlite::toJSON(json1))$items
   json2 <- json1
