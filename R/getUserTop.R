@@ -20,7 +20,7 @@ if(artists){
                     name=unlist(json2$name),
                     popularity=unlist(json2$popularity),
                     followers=unlist(json2$followers),
-                    genres=unlist(lapply(json2$genres, paste, collapse = "")))
+                    genres=unlist(lapply(json2$genres, paste, collapse = ";")))
 }else{
   artist_dfs <- lapply(json2$artists, data.frame)
   dados=data.frame(id=unlist(json2$id),
