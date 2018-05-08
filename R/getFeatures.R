@@ -7,10 +7,11 @@
 #'@export
 
 getFeatures<-function(spotify_ID,token){
-  if(is.vector(spotify_ID)){
+  if(is.vector(spotify_ID))
     id <- paste(spotify_ID, collapse='%')
-  }
-  req <- httr::GET(paste0("https://api.spotify.com/v1/audio-features/",spotify_ID), httr::config(token = token))
+  else
+    id <- spotify_ID
+  req <- httr::GET(paste0("https://api.spotify.com/v1/audio-features?ids=",id), httr::config(token = token))
   json1<-httr::content(req)
   dados=data.frame(id=json1$id,
                    danceability=json1$danceability,
