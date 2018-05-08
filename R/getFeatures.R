@@ -8,8 +8,8 @@
 
 getFeatures<-function(spotify_ID,token){
   if(is.vector(spotify_ID)){
-    id <- paste(spotify_ID, collapse='%')
-    base <- "https://api.spotify.com/v1/audio-features?ids="
+    id <- paste(spotify_ID, collapse=',')
+    base <- "https://api.spotify.com/v1/audio-features/?ids="
   }
   else{
     id <- spotify_ID
