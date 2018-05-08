@@ -2,7 +2,7 @@
 #'
 #'
 #'Function to get Spotify catalog information for a single artist identified by their unique Spotify ID.
-#'@param id The Spotify ID for the artist.
+#'@param spotify_ID The Spotify ID for the artist.
 #'@return Get Spotify catalog information for a single track identified by its unique Spotify ID.
 #'@export
 #'@examples \dontrun{
@@ -13,8 +13,16 @@
 #'
 #'}
 #'
-getArtist<-function(id, token){
-  req <- httr::GET(paste0("https://api.spotify.com/v1/artists/",id),
+getArtist<-function(spotify_ID, token){
+  if(length(spotify_ID) > 1){
+    id <- paste(spotify_ID, collapse=',')
+    base <- "https://api.spotify.com/v1/artists/?ids="
+  }
+  else{
+    id <- spotify_ID
+    base <- "https://api.spotify.com/v1/artists/"
+  }
+  req <- httr::GET(paste0(base,id),
                    httr::config(token = token))
   json1<-httr::content(req)
   dados<-data.frame(id=json1$id,
