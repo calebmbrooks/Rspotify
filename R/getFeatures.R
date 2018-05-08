@@ -7,7 +7,7 @@
 #'@export
 
 getFeatures<-function(spotify_ID,token){
-  if(lengt(spotify_ID) > 1){
+  if(length(spotify_ID) > 1){
     id <- paste(spotify_ID, collapse=',')
     base <- "https://api.spotify.com/v1/audio-features/?ids="
   }
